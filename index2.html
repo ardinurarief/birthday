@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday!</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts untuk nuansa romantis -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/9324/9324893.png" type="image/x-icon">
+    <style>
+        body { font-family: "Poppins", sans-serif; }
+        .font-handwriting { font-family: "Dancing Script", cursive; }
+        .font-name { font-family: "Quicksand", sans-serif; }
+        
+        /* Efek kursor berkedip */
+        .cursor-blink {
+            border-right: 2px solid #e11d48;
+            animation: blink 0.75s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #e11d48 }
+        }
+
+        /* Animasi Fade In untuk Kartu */
+        .fade-in { animation: fadeIn 1.5s ease-in-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Desain Amplop */
+        .envelope-container {
+            position: relative; width: 300px; height: 200px; background: #f9a8d4;
+            border-radius: 0 0 10px 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            cursor: pointer; transition: transform 0.3s; margin: auto;
+        }
+        .envelope-container:hover { transform: scale(1.02); }
+        .envelope-flap {
+            position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-left: 150px solid transparent; border-right: 150px solid transparent;
+            border-top: 100px solid palevioletred; transform-origin: top;
+            transition: transform 0.6s ease-in-out, z-index 0.6s; z-index: 3;
+        }
+        .envelope-inside {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #fdf2f8; clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%); z-index: 1;
+        }
+        .letter-paper {
+            position: absolute; bottom: 0; left: 15px; width: 270px; height: 180px;
+            background: white; border-radius: 5px; transition: transform 0.6s ease-in-out 0.4s;
+            z-index: 2; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        .open .envelope-flap { transform: rotateX(180deg); z-index: 0; }
+        .open .letter-paper { transform: translateY(-100px); z-index: 4; }
+
+        /* Animasi Putar Piringan Hitam */
+        .spin-slow {
+            animation: spin 4s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body class="relative min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
+    style="background-image: url('background.webp');">
+
+    <!-- Overlay efek gradient transparan -->
+    <div class="absolute inset-0 bg-gradient-to-br from-white/20 via-pink-50/10 to-rose-100/10"></div>
+
+    <!-- Audio Element -->
+    <audio id="bg-music" loop>
+        <source src="musik.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- COVER AMPLOP -->
+    <div id="envelope-cover" onclick="openLetter()" class="z-50">
+        <div class="envelope-container">
+            <div class="envelope-flap"></div>
+            <div class="envelope-inside"></div>
+            <div class="letter-paper">
+                <div class="text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/128/9324/9324893.png" class="w-8 h-8 mx-auto mb-2 opacity-50">
+                    <p class="font-handwriting text-rose-500 text-lg">Untuk Adzra</p>
+                </div>
+            </div>
+        </div>
+        <p class="text-center text-gray-600 mt-6 font-bold font-handwriting drop-shadow-md animate-pulse">Klik untuk membuka</p>
+    </div>
+
+    <!-- MAIN CARD (Disembunyikan Awalnya) -->
+    <div id="birthday-card" class="hidden max-w-md w-full bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden border border-white/50">
+        
+        <!-- Hero Section -->
+        <div class="pt-8 pb-4 text-center px-6">
+            <div class="relative inline-block">
+                <img src="foto.webp" alt="Birthday Person"
+                    class="w-32 h-32 rounded-full object-cover border-4 border-rose-300 shadow-lg mx-auto mb-4" />
+                <div class="absolute bottom-0 right-0 -translate-x-1 -translate-y-1 bg-white p-2 rounded-full shadow-md">
+                    <img src="https://cdn-icons-png.flaticon.com/128/9324/9324893.png" alt="Cake Icon" class="w-6 h-6" />
+                </div>
+            </div>
+
+            <h1 class="text-4xl font-handwriting text-rose-600 mb-2">Happy Birthday!</h1>
+            <h2 class="text-xl font-bold font-name text-gray-800 mt-2">Adzra Naila Fadila</h2>
+            <p class="text-sm text-gray-500 mt-1">17 September 2026</p>
+        </div>
+
+        <!-- Message Section -->
+        <div class="px-8 py-6">
+            <div class="bg-rose-50 p-6 rounded-xl border-l-4 border-rose-400 shadow-inner min-h-[120px]">
+                <p id="message-text" class="text-gray-700 leading-relaxed text-sm md:text-base cursor-blink"></p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-rose-100/50 py-4 text-center border-t border-rose-200">
+            <p class="font-name font-bold text-lg text-rose-700">Orang Handsome</p>
+        </div>
+    </div>
+
+    <!-- ICON PIRINGAN HITAM (Floating Music Control) -->
+    <div id="music-control" onclick="toggleMusic()" class="fixed bottom-6 right-6 z-50 cursor-pointer hidden group">
+        <!-- Ganti src di bawah ini dengan gambar piringan hitam kamu -->
+        <img src="https://cdn-icons-png.flaticon.com/128/187/187518.png" 
+             alt="Music Vinyl" 
+             id="vinyl-icon"
+             class="w-14 h-14 rounded-full shadow-lg border-2 border-white/50 bg-black/20 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        const messageText = "Selamat ulang tahun, Zraa! Semoga hari-hari lu selalu indah seindah senyuman lu, setiap langkah lu dipenuhi kebahagiaan dan keberkahan, serta semua impian lu dapat tercapai.";
+        const messageElement = document.getElementById("message-text");
+        const music = document.getElementById("bg-music");
+        const vinylIcon = document.getElementById("vinyl-icon");
+        let j = 0;
+
+        function openLetter() {
+            const envelope = document.getElementById("envelope-cover");
+            envelope.querySelector('.envelope-container').classList.add('open');
+            
+            // Tampilkan ikon musik dan mulai putar
+            document.getElementById("music-control").classList.remove("hidden");
+            vinylIcon.classList.add("spin-slow"); // Mulai animasi putar
+            
+            music.play().catch(error => console.log("Audio play failed"));
+
+            setTimeout(() => {
+                envelope.style.display = "none";
+                const card = document.getElementById("birthday-card");
+                card.classList.remove("hidden");
+                card.classList.add("fade-in");
+                setTimeout(typeMessage, 1000);
+            }, 1200);
+        }
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                vinylIcon.classList.add("spin-slow");
+            } else {
+                music.pause();
+                vinylIcon.classList.remove("spin-slow");
+            }
+        }
+
+        function typeMessage() {
+            if (j < messageText.length) {
+                messageElement.innerHTML += messageText.charAt(j);
+                j++;
+                setTimeout(typeMessage, 50);
+            } else {
+                messageElement.classList.remove("cursor-blink");
+            }
+        }
+    </script>
+</body>
+</html>
